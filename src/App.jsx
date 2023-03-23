@@ -1,11 +1,17 @@
 import {useState, useEffect, useRef} from 'react'
 
+function Cursor (props) {
+  return <div id='cursor' style={{
+    marginLeft: props.last ? '3px' : '0'
+  }}/>
+}
+
 function Char(props) {
   return (
     <span>
       {
         props.active && (
-          <div id='cursor' />
+          <Cursor />
         )
       }
       <span className='char' style={{
@@ -22,7 +28,7 @@ function Char(props) {
 
 function App() {
 
-  const words = () => 'github react someword \nother rain lofi music that \ngreat feature hololive gawr gura ina neuro twitch bugs controller model views newspaper'.split('')
+  const words = () => 'sorry but the code is not available now it will be available soon'.split('')
 
   const someWords = useRef(words())
 
@@ -33,10 +39,10 @@ function App() {
 
   useEffect(()=>{
     if(!focus){
-      document.getElementById('cursor').style.display = 'none'
+      document.getElementById('cursor').style.visibility = 'hidden'
       document.getElementById('focus_warning').style.opacity = 1
     }else{
-      document.getElementById('cursor').style.display = 'inline-block'
+      document.getElementById('cursor').style.visibility = 'visible'
       document.getElementById('focus_warning').style.opacity = 0
     }
 
@@ -97,6 +103,11 @@ function App() {
                   incorrect = { index < activeCharIndex ? correctCharsIndexArray.includes(index) ? false : true : false }
                 />
               })
+            }
+            {
+              activeCharIndex === someWords.current.length && (
+                <Cursor last={true}/>
+              )
             }
             <div id='focus_warning'><span>Click here to start typing</span></div>
           </div>
